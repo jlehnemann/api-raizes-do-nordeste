@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
+@Getter
+@Setter
 public abstract class Person {
     private String name;
     private String address;
