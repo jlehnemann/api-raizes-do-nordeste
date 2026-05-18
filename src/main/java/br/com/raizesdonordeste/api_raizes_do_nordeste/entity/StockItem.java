@@ -1,11 +1,13 @@
 package br.com.raizesdonordeste.api_raizes_do_nordeste.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "stock_item_tb")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -15,10 +17,19 @@ public class StockItem {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stock_item_seq")
     @SequenceGenerator(name = "stock_item_seq", sequenceName = "stock_item_seq", allocationSize = 1)
     private Long id;
+
+    @Column(nullable = false)
     private String name;
-    private Long quantity;
-    private boolean available;
+
+    @Column(nullable = false) //sem NotNull, pois pode vir nulo do DTO
+    private Long quantity = 0L; //salvaguarda caso venha nulo do DTO
+
+    @OneToOne
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "stock_id", nullable = false)
     private Stock stock;
 
 }
