@@ -3,8 +3,6 @@ package br.com.raizesdonordeste.api_raizes_do_nordeste.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +25,6 @@ public abstract class Person {
     @Column(nullable = false)
     private String address;
 
-    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Telefone inválido")
     @Column(nullable = false)
     private String telephone;
 

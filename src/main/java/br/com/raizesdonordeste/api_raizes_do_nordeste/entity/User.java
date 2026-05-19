@@ -2,11 +2,7 @@ package br.com.raizesdonordeste.api_raizes_do_nordeste.entity;
 
 import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.enums.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,8 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "user_tb")
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public class User implements UserDetails {
@@ -40,11 +35,25 @@ public class User implements UserDetails {
     private Role role;
 
     @Column(nullable = false)
-    private boolean active;
+    private boolean active = true;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    private User(String email, String password,Role role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+    public static User createCustomer(String email, String password){
+        return new User(email, password, Role.CLIENT);
+    }
+
+    public static User createEmployee(String email, String password, Role role) {
+        return new User(email, password, role);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
