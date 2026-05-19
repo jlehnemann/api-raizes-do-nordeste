@@ -41,12 +41,14 @@ public class User implements UserDetails {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    //construtor private para usar com os factory methods
     private User(String email, String password,Role role) {
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
+    //factory methods para usar na camada service
     public static User createCustomer(String email, String password){
         return new User(email, password, Role.CLIENT);
     }
