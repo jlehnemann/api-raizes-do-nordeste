@@ -1,5 +1,8 @@
 package br.com.raizesdonordeste.api_raizes_do_nordeste.service;
 
+import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.request.CustomerRequestDTO;
+import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.request.LoginRequestDTO;
+import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.response.LoginResponseDTO;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.User;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.UserRepository;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.security.JwtService;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService {
+
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
@@ -23,6 +27,7 @@ public class AuthService implements UserDetailsService {
     @Lazy
     private final AuthenticationManager authenticationManager;
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
@@ -31,18 +36,27 @@ public class AuthService implements UserDetailsService {
                         new UsernameNotFoundException("Usuário não encontrado: " + email));
     }
 
-    public String login(String email, String password) {
+    public LoginResponseDTO login(LoginRequestDTO dto) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(email, password)
+                new UsernamePasswordAuthenticationToken(
+                        dto.email(),
+                        dto.password()
+                )
         );
-        User user = userRepository.findByEmail(email)
+
+        User user = userRepository.findByEmail(dto.email())
                 .orElseThrow(() ->
                         new UsernameNotFoundException("Usuário não encontrado"));
-        return jwtService.generateToken(user);
+
+        String token = jwtService.generateToken(user);
+        return new LoginResponseDTO(token, "Bearer");
     }
 
-    public void cadastrarCliente(String email, String password) {
-        User user = User.createCustomer(email, passwordEncoder.encode(password));
+    public void registerCustomer(CustomerRequestDTO dto) {
+        User user = User.createCustomer(
+                dto.email(),
+                passwordEncoder.encode(dto.password())
+        );
         userRepository.save(user);
     }
 }
