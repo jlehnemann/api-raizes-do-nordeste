@@ -1,7 +1,6 @@
 package br.com.raizesdonordeste.api_raizes_do_nordeste.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

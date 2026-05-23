@@ -6,8 +6,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,20 +32,29 @@ public class Order {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus = OrderStatus.PAYMENT_PENDING;
+    private OrderStatus orderStatus;
 
     @Column(nullable = false)
-    private BigDecimal orderTotal = BigDecimal.ZERO;
+    private BigDecimal orderTotal;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItemList;
 
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        if (this.orderStatus == null) {
+            this.orderStatus = OrderStatus.PAYMENT_PENDING;
+        }
+        if (this.orderTotal == null) {
+            this.orderTotal = BigDecimal.ZERO;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package br.com.raizesdonordeste.api_raizes_do_nordeste.security;
+package br.com.raizesdonordeste.api_raizes_do_nordeste.service;
 
 import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +13,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("Usuário não encontrado: " + email));
+                        new UsernameNotFoundException("Usuário não encontrado"));
     }
 }

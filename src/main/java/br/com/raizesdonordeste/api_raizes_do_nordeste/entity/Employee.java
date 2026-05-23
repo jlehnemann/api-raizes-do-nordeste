@@ -25,4 +25,9 @@ public class Employee extends Person {
     @JoinColumn(name = "user_id", unique = true, nullable = false)
     private User user;
 
+    @PrePersist
+    public void prePersist() {
+        initializePersonFields();
+    }
+
 }
