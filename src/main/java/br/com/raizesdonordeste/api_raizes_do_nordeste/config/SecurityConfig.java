@@ -29,8 +29,14 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/webjars/**",
-                                "/auth/**"
+                                "/auth/**", //para testes - REMOVER
+                                "/error" //para testes - REMOVER
+/*                                "/auth/registrar/cliente",
+                                "/auth/login"*/
                         ).permitAll()
+/*
+                        .requestMatchers("/auth/registrar/funcionario").hasAnyRole("ADMIN", "UNIT_MANAGER")
+*/
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
