@@ -37,7 +37,6 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private boolean active = true;
 
-    @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -85,5 +84,10 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return this.active;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
     }
 }

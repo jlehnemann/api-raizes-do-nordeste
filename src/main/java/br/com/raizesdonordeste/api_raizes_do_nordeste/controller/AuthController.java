@@ -10,6 +10,7 @@ import br.com.raizesdonordeste.api_raizes_do_nordeste.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class AuthController {
 
     @PostMapping("/registrar/funcionario")
     @ResponseStatus(HttpStatus.CREATED)
+//    @PreAuthorize("hasRole('ADMIN'")
     public EmployeeResponseDTO registerEmployee(@Valid @RequestBody EmployeeRequestDTO dto) {
         return authService.registerEmployee(dto);
     }

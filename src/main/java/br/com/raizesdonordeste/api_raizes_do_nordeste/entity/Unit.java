@@ -1,13 +1,14 @@
 package br.com.raizesdonordeste.api_raizes_do_nordeste.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "unit_tb")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public class Unit {
@@ -26,5 +27,22 @@ public class Unit {
 
     @Column(nullable = false)
     private String state;
+
+    @Column(nullable = false)
+    private boolean active;
+
+
+    public Unit (String name, String city, String state) {
+        this.name = name;
+        this.city = city;
+        this.state = state;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.active = true;
+    }
+
+
 
 }
