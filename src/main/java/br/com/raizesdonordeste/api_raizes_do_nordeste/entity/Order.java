@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "order_tb")
@@ -21,6 +22,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
     @SequenceGenerator(name = "order_seq", sequenceName = "order_seq", allocationSize = 1)
     private Long id;
+
+    @Column(nullable = false, unique = true, updatable = false)
+    private UUID idempotencyKey;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -50,6 +54,9 @@ public class Order {
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
+        if (this.idempotencyKey == null) {
+            this.idempotencyKey =  UUID.randomUUID();
+        }
         if (this.orderStatus == null) {
             this.orderStatus = OrderStatus.PAYMENT_PENDING;
         }
