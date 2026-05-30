@@ -30,7 +30,7 @@ public class AuthController {
 
     @PostMapping("/registrar/funcionario")
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasRole('ADMIN'")
+    @PreAuthorize("hasAnyRole('ADMIN', 'UNIT_MANAGER')")
     public EmployeeResponseDTO registerEmployee(@Valid @RequestBody EmployeeRequestDTO dto) {
         return authService.registerEmployee(dto);
     }
