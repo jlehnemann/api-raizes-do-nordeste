@@ -13,5 +13,7 @@ public record ErrorResponseDTO(
         LocalDateTime timestamp,
         String path
 ) {
-    public record ErrorDetail(String field, String issue) {}
+    public record ErrorDetail(
+            String field,
+            String issue) {}
 }

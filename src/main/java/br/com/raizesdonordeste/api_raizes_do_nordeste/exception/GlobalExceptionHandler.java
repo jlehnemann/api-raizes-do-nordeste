@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -59,6 +61,7 @@ public class GlobalExceptionHandler {
     public ErrorResponseDTO handleGenericError(
             Exception exception,
             HttpServletRequest request) {
+
         return new ErrorResponseDTO(
                 "INTERNAL_ERROR",
                 "Erro interno do servidor",
@@ -67,5 +70,6 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
     }
+
 
 }

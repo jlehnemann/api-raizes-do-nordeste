@@ -51,6 +51,14 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItemList;
 
+    public Order(OrderOrigin orderOrigin, Unit unit, Customer customer, List<OrderItem> orderItemList) {
+        this.orderOrigin = orderOrigin;
+        this.unit = unit;
+        this.customer = customer;
+        this.orderItemList = orderItemList;
+        this.orderItemList.forEach(orderItem -> orderItem.setOrder(this));
+    }
+
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();

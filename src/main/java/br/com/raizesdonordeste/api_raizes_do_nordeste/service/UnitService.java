@@ -7,7 +7,6 @@ import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.Unit;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.UnitRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -22,18 +21,18 @@ public class UnitService {
         Unit unit = new Unit(dto.name(), dto.city(), dto.state());
         Unit savedUnit = unitRepository.save(unit);
 
-        return response(savedUnit);
+        return mapToResponseDTO(savedUnit);
     }
 
     public UnitResponseDTO findById (Long id) {
         Unit unit = unitRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Unidade não encontrada"));
-        return response(unit);
+        return mapToResponseDTO(unit);
     }
 
     public PageResponseDTO<UnitResponseDTO> findAll(Pageable pageable) {
         return PageResponseDTO.of(unitRepository.findAll(pageable)
-                .map(this::response));
+                .map(this::mapToResponseDTO));
     }
 
     public void deactivate(Long id) {
@@ -43,7 +42,7 @@ public class UnitService {
         unitRepository.save(unit);
     }
 
-    private UnitResponseDTO response(Unit unit) {
+    private UnitResponseDTO mapToResponseDTO(Unit unit) {
         return new UnitResponseDTO(
                 unit.getId(),
                 unit.getName(),

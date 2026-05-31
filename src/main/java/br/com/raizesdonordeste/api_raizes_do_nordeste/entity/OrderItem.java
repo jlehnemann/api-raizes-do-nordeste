@@ -40,6 +40,12 @@ public class OrderItem {
     @JoinColumn(name = "discount_id")
     private Discount discount;
 
+    public OrderItem(Product product, Integer quantity, BigDecimal unitPrice) {
+        this.product = product;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+    }
+
     @PrePersist
     public void subtotalCalculation() {
         if (this.unitPrice != null && this.quantity != null) {

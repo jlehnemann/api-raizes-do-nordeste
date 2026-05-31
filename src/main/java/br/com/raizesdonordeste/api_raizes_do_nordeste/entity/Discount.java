@@ -29,4 +29,8 @@ public class Discount {
     @Column(nullable = false)
     private BigDecimal discountPercentage;
 
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
 }

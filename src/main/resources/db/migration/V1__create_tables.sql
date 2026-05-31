@@ -41,6 +41,7 @@
         id bigint not null,
         valid_until timestamp(6) not null,
         name varchar(255) not null,
+        product_id bigint unique not null,
         primary key (id)
     );
 
@@ -145,6 +146,11 @@
        add constraint FKi08xdhlb56owdwmqk5x1uyq63 
        foreign key (user_id) 
        references user_tb;
+
+    alter table if exists discount_tb
+        add constraint fk_discount_product
+        foreign key  (product_id)
+        references product_tb;
 
     alter table if exists employee_tb 
        add constraint FK90q4rmjetvu48kf4fyonk9g41 
