@@ -3,6 +3,7 @@ package br.com.raizesdonordeste.api_raizes_do_nordeste.entity;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.enums.OrderOrigin;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.enums.OrderStatus;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "order_tb")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public class Order {

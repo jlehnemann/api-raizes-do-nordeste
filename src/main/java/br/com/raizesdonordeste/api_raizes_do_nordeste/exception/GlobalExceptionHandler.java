@@ -71,5 +71,31 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponseDTO handleIllegalStateException(
+            IllegalStateException exception, HttpServletRequest request) {
+        return new ErrorResponseDTO(
+                "CONFLICT",
+                exception.getMessage(),
+                List.of(),
+                LocalDateTime.now(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(PaymentRefusedException.class)
+    @ResponseStatus(HttpStatus.PAYMENT_REQUIRED)
+    public ErrorResponseDTO handlePaymentRefusedException(
+            PaymentRefusedException exception, HttpServletRequest request) {
+        return new ErrorResponseDTO(
+                "PAYMENT_REQUIRED",
+                exception.getMessage(),
+                List.of(),
+                LocalDateTime.now(),
+                request.getRequestURI()
+        );
+    }
+
 
 }
