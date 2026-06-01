@@ -11,15 +11,16 @@ import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.OrderRepository
 import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.PaymentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional
 public class PaymentService {
 
@@ -66,6 +67,10 @@ public class PaymentService {
         if (paymentStatus == PaymentStatus.APPROVED) {
             order.setOrderStatus(OrderStatus.PREPARING);
             orderRepository.save(order);
+
+            //log para auditoria
+            log.info("Pagamento processado | orderId={} | status={} | tipo={}",
+                    orderId, paymentStatus, dto.paymentType());
         }
 
         if (paymentStatus == PaymentStatus.REFUSED) {
@@ -74,6 +79,16 @@ public class PaymentService {
 
         return mapToResponseDTO(savedPayment);
     }
+
+    public PaymentResponseDTO checkPayment(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(()-> new EntityNotFoundException("Pedido não encontrado"));
+        Payment payment = paymentRepository.findByOrder(order)
+                .orElseThrow(()-> new EntityNotFoundException("Pagamento não encontrado"));
+
+        return mapToResponseDTO(payment);
+    }
+
 
     public PaymentResponseDTO mapToResponseDTO(Payment payment) {
         return new PaymentResponseDTO(

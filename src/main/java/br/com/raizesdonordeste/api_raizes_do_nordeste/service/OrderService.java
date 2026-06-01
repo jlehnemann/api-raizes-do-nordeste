@@ -8,6 +8,7 @@ import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.*;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -29,6 +31,8 @@ public class OrderService {
 
 
     public OrderResponseDTO createOrder(OrderRequestDTO dto) {
+
+
 
         Unit unit = unitRepository.findById(dto.unitId()).
                 orElseThrow(() -> new EntityNotFoundException("Unidade não encontrada"));
@@ -68,6 +72,15 @@ public class OrderService {
         order.setOrderTotal(orderTotal);
 
         Order savedOrder = orderRepository.save(order);
+
+        //log para auditoria
+        log.info("Pedido criado | id={} | canal={} | unidade={} | cliente={} | total={}",
+                savedOrder.getId(),
+                savedOrder.getOrderOrigin(),
+                savedOrder.getUnit().getName(),
+                savedOrder.getCustomer() != null ? savedOrder.getCustomer().getId() : "totem",
+                savedOrder.getOrderTotal());
+
 
         return mapToResponseDTO(savedOrder);
     }

@@ -3,7 +3,9 @@ package br.com.raizesdonordeste.api_raizes_do_nordeste.exception;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.response.ErrorResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +18,7 @@ import java.util.List;
 
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -91,6 +94,22 @@ public class GlobalExceptionHandler {
         return new ErrorResponseDTO(
                 "PAYMENT_REQUIRED",
                 exception.getMessage(),
+                List.of(),
+                LocalDateTime.now(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponseDTO handleAccessDeniedException(
+            AccessDeniedException exception, HttpServletRequest request) {
+        //log para auditoria
+        log.warn("Acesso negado | path={} | mensagem={}",
+                request.getRequestURI(), exception.getMessage());
+        return new ErrorResponseDTO(
+                "FORBIDDEN",
+                "Acesso negado",
                 List.of(),
                 LocalDateTime.now(),
                 request.getRequestURI()
