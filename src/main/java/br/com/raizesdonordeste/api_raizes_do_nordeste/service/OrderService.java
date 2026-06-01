@@ -32,8 +32,6 @@ public class OrderService {
 
     public OrderResponseDTO createOrder(OrderRequestDTO dto) {
 
-
-
         Unit unit = unitRepository.findById(dto.unitId()).
                 orElseThrow(() -> new EntityNotFoundException("Unidade não encontrada"));
         Customer customer = dto.customerId() != null ? customerRepository.findById(dto.customerId())
@@ -84,6 +82,14 @@ public class OrderService {
 
         return mapToResponseDTO(savedOrder);
     }
+
+    public OrderResponseDTO findById(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Pedido não encontrado"));
+        return mapToResponseDTO(order);
+    }
+
+
 
     private OrderResponseDTO mapToResponseDTO(Order order) {
 

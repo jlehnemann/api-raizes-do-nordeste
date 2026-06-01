@@ -1,7 +1,6 @@
 package br.com.raizesdonordeste.api_raizes_do_nordeste.controller;
 
 import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.request.PaymentRequestDTO;
-import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.response.PageResponseDTO;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.response.PaymentResponseDTO;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.service.PaymentService;
 import jakarta.validation.Valid;
@@ -22,9 +21,9 @@ public class PaymentController {
         return paymentService.processPayment(orderId, dto);
     }
 
-    @GetMapping("consultar/{orderId}")
+    @GetMapping("buscar/{orderId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'UNIT_MANAGER', 'KITCHEN_ATTENDANT', 'COUNTER_ATTENDANT')")
-    public PaymentResponseDTO checkPayment(@PathVariable Long orderId) {
-        return paymentService.checkPayment(orderId);
+    public PaymentResponseDTO findPaymentByOrderId(@PathVariable Long orderId) {
+        return paymentService.findPaymentByOrderId(orderId);
     }
 }

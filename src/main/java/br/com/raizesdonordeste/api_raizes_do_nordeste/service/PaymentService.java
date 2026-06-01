@@ -80,7 +80,7 @@ public class PaymentService {
         return mapToResponseDTO(savedPayment);
     }
 
-    public PaymentResponseDTO checkPayment(Long orderId) {
+    public PaymentResponseDTO findPaymentByOrderId(Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(()-> new EntityNotFoundException("Pedido não encontrado"));
         Payment payment = paymentRepository.findByOrder(order)
@@ -90,7 +90,7 @@ public class PaymentService {
     }
 
 
-    public PaymentResponseDTO mapToResponseDTO(Payment payment) {
+    private PaymentResponseDTO mapToResponseDTO(Payment payment) {
         return new PaymentResponseDTO(
                 payment.getId(),
                 payment.getOrder().getId(),
