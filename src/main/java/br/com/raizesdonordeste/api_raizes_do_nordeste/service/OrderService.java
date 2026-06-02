@@ -4,11 +4,19 @@ import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.request.OrderItemReque
 import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.request.OrderRequestDTO;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.response.OrderItemResponseDTO;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.response.OrderResponseDTO;
+import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.response.PageResponseDTO;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.*;
+import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.enums.OrderOrigin;
+import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.enums.OrderStatus;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,7 +97,81 @@ public class OrderService {
         return mapToResponseDTO(order);
     }
 
+    public OrderResponseDTO findMyOrderById(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Pedido não encontrado"));
 
+        if (!isOrderFromLoggedCustomer(order)) {
+            throw new AccessDeniedException("Acesso negado");
+        }
+        return mapToResponseDTO(order);
+    }
+
+    public PageResponseDTO<OrderResponseDTO> findByUnitIdAndOrderStatus(
+            Long unitId, OrderStatus orderStatus, Pageable pageable) {
+
+        Page<Order> orders = orderStatus != null
+                ? orderRepository.findAllByUnitIdAndOrderStatus(unitId, orderStatus, pageable)
+                : orderRepository.findAllByUnitId(unitId, pageable);
+
+        return PageResponseDTO.of(orders.map(this::mapToResponseDTO));
+    }
+
+    public PageResponseDTO<OrderResponseDTO> findAllOrders(OrderOrigin orderOrigin, Pageable pageable) {
+        Page<Order> orders = orderOrigin != null
+                ? orderRepository.findAllByOrderOrigin(orderOrigin, pageable)
+                : orderRepository.findAll(pageable);
+
+        return PageResponseDTO.of(orders.map(this::mapToResponseDTO));
+    }
+
+    public OrderResponseDTO deliverOrder(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Pedido não encontrado"));
+
+        if (order.getOrderStatus() != OrderStatus.PREPARING) {
+            throw new IllegalStateException("Pedido não pode ser entregue");
+        }
+
+        order.setOrderStatus(OrderStatus.DELIVERED);
+        Order savedOrder = orderRepository.save(order);
+
+        return mapToResponseDTO(savedOrder);
+    }
+
+    public OrderResponseDTO cancelOrder(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Pedido não encontrado"));
+
+        if (order.getOrderStatus() != OrderStatus.PREPARING && order.getOrderStatus()!= OrderStatus.PAYMENT_PENDING) {
+            throw new IllegalStateException("Pedido não pode ser cancelado");
+        }
+
+        order.setOrderStatus(OrderStatus.CANCELLED);
+
+        //log para auditoria
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserEmail = authentication != null ? authentication.getName() : "desconhecido";
+        log.info("Pedido cancelado | id={} | funcionário={}",
+                id, currentUserEmail);
+
+        Order savedOrder = orderRepository.save(order);
+        return mapToResponseDTO(savedOrder);
+    }
+
+    private boolean isOrderFromLoggedCustomer(Order order) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return false;
+        }
+
+        // pedido do totem não pertence a nenhum cliente
+        if (order.getCustomer() == null) {
+            return false;
+        }
+        String currentUserEmail = authentication.getName();
+        return order.getCustomer().getUser().getEmail().equals(currentUserEmail);
+    }
 
     private OrderResponseDTO mapToResponseDTO(Order order) {
 
