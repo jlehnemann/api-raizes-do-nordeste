@@ -135,6 +135,19 @@ public class OrderService {
 
         order.setOrderStatus(OrderStatus.DELIVERED);
 
+        //verificação pois pedidos pelo totem podem não ter cliente
+        if (order.getCustomer() != null) {
+            Customer customer = order.getCustomer();
+            Integer currentPoints = customer.getLoyaltyProgram().getLoyaltyPoints();
+            Integer earnedPoints = order.getOrderTotal().intValue();
+            customer.getLoyaltyProgram().setLoyaltyPoints(currentPoints + earnedPoints);
+            customerRepository.save(customer);
+
+            //log para auditoria de pontos ganhos
+            log.info("Pontos adicionados | cliente={} | pontos ganhos={} | total={}",
+                    customer.getId(), earnedPoints, currentPoints + earnedPoints);
+        }
+
         //log para auditoria
         log.info("Pedido entregue | id={} | funcionário={}", id, getCurrentUserEmail());
 
