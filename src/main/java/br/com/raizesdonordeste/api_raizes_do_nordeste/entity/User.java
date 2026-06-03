@@ -3,7 +3,6 @@ package br.com.raizesdonordeste.api_raizes_do_nordeste.entity;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -49,7 +48,7 @@ public class User implements UserDetails {
 
     //factory methods para usar na camada service
     public static User createCustomer(String email, String password){
-        return new User(email, password, Role.CLIENT);
+        return new User(email, password, Role.CUSTOMER);
     }
 
     public static User createEmployee(String email, String password, Role role) {

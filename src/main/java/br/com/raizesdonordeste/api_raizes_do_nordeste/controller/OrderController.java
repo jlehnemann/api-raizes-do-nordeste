@@ -25,9 +25,6 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("isAuthenticated()")
     public OrderResponseDTO createOrder(@Valid @RequestBody OrderRequestDTO dto) {
-        System.out.println("orderOrigin: " + dto.orderOrigin());
-        System.out.println("unitId: " + dto.unitId());
-        System.out.println("orderItemList: " + dto.orderItemList());
         return orderService.createOrder(dto);
     }
 
@@ -38,7 +35,7 @@ public class OrderController {
     }
 
     @GetMapping("/meus-pedidos/buscar/{id}")
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public OrderResponseDTO findMyOrderById(@PathVariable Long id) {
         return orderService.findMyOrderById(id);
     }
@@ -51,7 +48,7 @@ public class OrderController {
         return orderService.findByUnitIdAndOrderStatus(unitId, orderStatus, pageable);
     }
 
-    @GetMapping("admin/buscar-todos")
+    @GetMapping("/admin/buscar-todos")
     @PreAuthorize("hasRole('ADMIN')")
     public PageResponseDTO<OrderResponseDTO> findAllOrders(
             @RequestParam(required = false) OrderOrigin orderOrigin,

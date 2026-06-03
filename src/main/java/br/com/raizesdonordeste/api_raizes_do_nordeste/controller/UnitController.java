@@ -23,8 +23,8 @@ public class UnitController {
     @PostMapping("/criar")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
-    public UnitResponseDTO create(@Valid @RequestBody UnitRequestDTO dto) {
-        return unitService.create(dto);
+    public UnitResponseDTO createUnitAndStock(@Valid @RequestBody UnitRequestDTO dto) {
+        return unitService.createUnitAndStock(dto);
     }
 
     @GetMapping("/buscar/{id}")

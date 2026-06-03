@@ -26,4 +26,7 @@ public class Stock {
     @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL)
     private List<StockItem> stockItemList;
 
+    public Stock(Unit unit) {
+        this.unit = unit;
+    }
 }

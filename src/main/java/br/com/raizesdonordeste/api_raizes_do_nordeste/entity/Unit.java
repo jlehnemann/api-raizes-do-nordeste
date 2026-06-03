@@ -31,6 +31,9 @@ public class Unit {
     @Column(nullable = false)
     private boolean active;
 
+    @OneToOne(mappedBy = "unit", cascade = CascadeType.ALL)
+    private Stock stock;
+
 
     public Unit (String name, String city, String state) {
         this.name = name;

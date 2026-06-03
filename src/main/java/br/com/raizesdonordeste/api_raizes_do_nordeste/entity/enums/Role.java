@@ -5,5 +5,5 @@ public enum Role {
     UNIT_MANAGER,
     COUNTER_ATTENDANT,
     KITCHEN_ATTENDANT,
-    CLIENT
+    CUSTOMER
 }

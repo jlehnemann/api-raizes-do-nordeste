@@ -3,7 +3,9 @@ package br.com.raizesdonordeste.api_raizes_do_nordeste.service;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.request.UnitRequestDTO;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.response.PageResponseDTO;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.response.UnitResponseDTO;
+import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.Stock;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.Unit;
+import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.StockRepository;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.UnitRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +18,16 @@ import org.springframework.stereotype.Service;
 public class UnitService {
 
     private final UnitRepository unitRepository;
+    private final StockRepository stockRepository;
 
-    public UnitResponseDTO create(UnitRequestDTO dto) {
+    public UnitResponseDTO createUnitAndStock(UnitRequestDTO dto) {
         Unit unit = new Unit(dto.name(), dto.city(), dto.state());
         Unit savedUnit = unitRepository.save(unit);
+
+        Stock stock = new Stock(savedUnit);
+        Stock savedStock = stockRepository.save(stock);
+
+        savedUnit.setStock(savedStock);
 
         return mapToResponseDTO(savedUnit);
     }
@@ -48,7 +56,8 @@ public class UnitService {
                 unit.getName(),
                 unit.getCity(),
                 unit.getState(),
-                unit.isActive()
+                unit.isActive(),
+                unit.getStock().getId()
         );
     }
 

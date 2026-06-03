@@ -134,6 +134,10 @@ public class OrderService {
         }
 
         order.setOrderStatus(OrderStatus.DELIVERED);
+
+        //log para auditoria
+        log.info("Pedido entregue | id={} | funcionário={}", id, getCurrentUserEmail());
+
         Order savedOrder = orderRepository.save(order);
 
         return mapToResponseDTO(savedOrder);
@@ -150,13 +154,16 @@ public class OrderService {
         order.setOrderStatus(OrderStatus.CANCELLED);
 
         //log para auditoria
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUserEmail = authentication != null ? authentication.getName() : "desconhecido";
-        log.info("Pedido cancelado | id={} | funcionário={}",
-                id, currentUserEmail);
+        log.info("Pedido cancelado | id={} | funcionário={}", id, getCurrentUserEmail());
 
         Order savedOrder = orderRepository.save(order);
         return mapToResponseDTO(savedOrder);
+    }
+
+
+    private String getCurrentUserEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null ? authentication.getName() : "desconhecido";
     }
 
     private boolean isOrderFromLoggedCustomer(Order order) {
