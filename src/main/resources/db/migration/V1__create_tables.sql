@@ -133,7 +133,7 @@
         id bigint not null,
         email varchar(255) not null unique,
         password varchar(255) not null,
-        role varchar(255) not null check ((role in ('ADMIN','UNIT_MANAGER','COUNTER_ATTENDANT','KITCHEN_ATTENDANT','CLIENT'))),
+        role varchar(255) not null check ((role in ('ADMIN','UNIT_MANAGER','COUNTER_ATTENDANT','KITCHEN_ATTENDANT','CUSTOMER'))),
         primary key (id)
     );
 
