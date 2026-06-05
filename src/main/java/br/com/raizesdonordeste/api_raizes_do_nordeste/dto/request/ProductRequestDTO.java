@@ -1,0 +1,18 @@
+package br.com.raizesdonordeste.api_raizes_do_nordeste.dto.request;
+
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+import java.math.BigDecimal;
+
+public record ProductRequestDTO(
+        @NotBlank(message = "Nome do produto é obrigatório")
+        String name,
+        @NotNull(message = "Preço do produto é obrigatório")
+        @DecimalMin(value = "0.10", message = "Preço precisa ser positivo")
+        @Digits(integer = 3, fraction = 2, message = "O preço deve ter no máximo 3 dígitos inteiros e 2 casas decimais")
+        BigDecimal unitPrice
+        ) {
+}

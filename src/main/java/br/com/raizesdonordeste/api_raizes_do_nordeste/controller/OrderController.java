@@ -24,8 +24,8 @@ public class OrderController {
     @PostMapping("/criar")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("isAuthenticated()")
-    public OrderResponseDTO createOrder(@Valid @RequestBody OrderRequestDTO dto) {
-        return orderService.createOrder(dto);
+    public OrderResponseDTO create(@Valid @RequestBody OrderRequestDTO dto) {
+        return orderService.create(dto);
     }
 
     @GetMapping("/buscar/{id}")

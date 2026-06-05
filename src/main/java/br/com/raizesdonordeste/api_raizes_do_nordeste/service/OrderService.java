@@ -38,7 +38,7 @@ public class OrderService {
     private final DiscountRepository discountRepository;
 
 
-    public OrderResponseDTO createOrder(OrderRequestDTO dto) {
+    public OrderResponseDTO create(OrderRequestDTO dto) {
 
         Unit unit = unitRepository.findById(dto.unitId()).
                 orElseThrow(() -> new EntityNotFoundException("Unidade não encontrada"));
@@ -135,7 +135,7 @@ public class OrderService {
 
         order.setOrderStatus(OrderStatus.DELIVERED);
 
-        //verificação pois pedidos pelo totem podem não ter cliente
+        //verificação pedidos pelo totem podem não ter cliente
         if (order.getCustomer() != null) {
             Customer customer = order.getCustomer();
             Integer currentPoints = customer.getLoyaltyProgram().getLoyaltyPoints();

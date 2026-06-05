@@ -28,7 +28,7 @@ public class PaymentService {
     private final OrderRepository orderRepository;
 
 
-    public PaymentResponseDTO processPayment(Long orderId, PaymentRequestDTO dto) {
+    public PaymentResponseDTO process(Long orderId, PaymentRequestDTO dto) {
 
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(()-> new EntityNotFoundException("Pedido não encontrado"));

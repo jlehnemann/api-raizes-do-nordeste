@@ -4,6 +4,7 @@ import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.response.ErrorResponse
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
@@ -109,6 +110,19 @@ public class GlobalExceptionHandler {
         return new ErrorResponseDTO(
                 "FORBIDDEN",
                 "Acesso negado",
+                List.of(),
+                LocalDateTime.now(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponseDTO handleDataIntegrityViolationException(
+            DataIntegrityViolationException exception, HttpServletRequest request) {
+        return new ErrorResponseDTO(
+                "CONFLICT",
+                "Já existe um registro com esses dados",
                 List.of(),
                 LocalDateTime.now(),
                 request.getRequestURI()

@@ -17,8 +17,8 @@ public class PaymentController {
 
     @PostMapping("/processar/{orderId}")
     @PreAuthorize("isAuthenticated()")
-    public PaymentResponseDTO processPayment(@PathVariable Long orderId, @Valid @RequestBody PaymentRequestDTO dto) {
-        return paymentService.processPayment(orderId, dto);
+    public PaymentResponseDTO process(@PathVariable Long orderId, @Valid @RequestBody PaymentRequestDTO dto) {
+        return paymentService.process(orderId, dto);
     }
 
     @GetMapping("buscar/{orderId}")

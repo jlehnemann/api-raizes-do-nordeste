@@ -25,13 +25,13 @@ VALUES (
            1
        );
 
-INSERT INTO product_tb (id, name, unit_price)
+INSERT INTO product_tb (id, name, unit_price, active)
 VALUES
-    (nextval('product_seq'), 'Bolo de Rolo', 24.90),
-    (nextval('product_seq'), 'Rapadura', 15.90),
-    (nextval('product_seq'), 'Queijo Coalho', 12.90),
-    (nextval('product_seq'), 'Suco de Caju', 8.90),
-    (nextval('product_seq'), 'Água Mineral', 4.90);
+    (nextval('product_seq'), 'Bolo de Rolo', 24.90, true),
+    (nextval('product_seq'), 'Rapadura', 15.90, true),
+    (nextval('product_seq'), 'Queijo Coalho', 12.90, true),
+    (nextval('product_seq'), 'Suco de Caju', 8.90, true),
+    (nextval('product_seq'), 'Água Mineral', 4.90, true);
 
 
 INSERT INTO stock_tb (id, unit_id)

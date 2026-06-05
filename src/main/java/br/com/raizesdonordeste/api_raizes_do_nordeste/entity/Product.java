@@ -1,6 +1,7 @@
 package br.com.raizesdonordeste.api_raizes_do_nordeste.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,7 +10,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "product_tb")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public class Product {
@@ -19,10 +20,26 @@ public class Product {
     @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
     private BigDecimal unitPrice;
+
+    @Column(nullable = false)
+    private boolean active;
+
+    @OneToOne(mappedBy = "product")
+    private StockItem stockItem;
+
+    public Product(String name, BigDecimal unitPrice) {
+        this.name = name;
+        this.unitPrice = unitPrice;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.active = false;
+    }
 
 }
