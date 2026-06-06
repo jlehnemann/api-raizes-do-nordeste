@@ -17,6 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -43,7 +45,8 @@ public class DiscountService {
     }
 
     public PageResponseDTO<DiscountResponseDTO> findAllActiveDiscounts(Pageable pageable) {
-        Page<Discount> discounts = discountRepository.findAllByActiveTrue(pageable);
+        Page<Discount> discounts =
+                discountRepository.findAllByActiveTrueAndValidUntilAfter(LocalDateTime.now(), pageable);
 
         return PageResponseDTO.of(discounts.map(this::mapToResponseDTO));
     }
