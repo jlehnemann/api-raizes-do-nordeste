@@ -5,7 +5,11 @@ import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.request.ProductRequest
 import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.response.PageResponseDTO;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.response.ProductResponseDTO;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.Product;
+import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.Stock;
+import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.StockItem;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.ProductRepository;
+import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.StockItemRepository;
+import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.StockRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,19 +17,26 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final StockRepository stockRepository;
+    private final StockItemRepository stockItemRepository;
 
-
-
-    public ProductResponseDTO create(ProductRequestDTO dto) {
+    public ProductResponseDTO createProductAndStockItem(ProductRequestDTO dto) {
         Product product = new Product(dto.name(), dto.unitPrice());
-
         Product savedProduct = productRepository.save(product);
+
+        List<Stock> stocks = stockRepository.findAll();
+        for (Stock stock : stocks) {
+            StockItem stockItem = new StockItem(savedProduct.getName(), 0L, savedProduct, stock);
+            stockItemRepository.save(stockItem);
+        }
 
         log.info("Produto cadastrado | id= {} | nome = {} | preço = {}, ativo = {}",
                 savedProduct.getId(),

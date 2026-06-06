@@ -32,4 +32,10 @@ public class StockItem {
     @JoinColumn(name = "stock_id", nullable = false)
     private Stock stock;
 
+    public StockItem(String name, Long quantity, Product product, Stock stock) {
+        this.name = name;
+        this.quantity = quantity;
+        this.product = product;
+        this.stock = stock;
+    }
 }

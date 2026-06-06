@@ -22,8 +22,8 @@ public class ProductController {
 
     @PostMapping("/criar")
     @PreAuthorize("hasAnyRole('ADMIN', 'UNIT_MANAGER')")
-    public ProductResponseDTO create(@Valid @RequestBody ProductRequestDTO dto) {
-        return productService.create(dto);
+    public ProductResponseDTO createProductAndStockItem(@Valid @RequestBody ProductRequestDTO dto) {
+        return productService.createProductAndStockItem(dto);
     }
 
     @GetMapping("/buscar-todos-ativos")
