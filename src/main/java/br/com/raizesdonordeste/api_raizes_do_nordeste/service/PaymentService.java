@@ -6,6 +6,7 @@ import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.Order;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.Payment;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.enums.OrderStatus;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.enums.PaymentStatus;
+import br.com.raizesdonordeste.api_raizes_do_nordeste.entity.enums.PaymentType;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.exception.PaymentRefusedException;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.OrderRepository;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.PaymentRepository;
@@ -52,11 +53,8 @@ public class PaymentService {
         Payment payment = paymentRepository.findByOrder(order)
                 .orElse(new Payment(order, dto.paymentType()));
 
-        // simula o processamento mock (50% de chance de dar pagamento recusado)
-        PaymentStatus paymentStatus = Math.random() < 0.5
-                ? PaymentStatus.APPROVED
-                : PaymentStatus.REFUSED;
-
+        PaymentStatus paymentStatus = dto.paymentType() == PaymentType.MOCK_APPROVED
+                ? PaymentStatus.APPROVED : PaymentStatus.REFUSED;
 
         payment.setPaymentType(dto.paymentType());
         payment.setPaymentStatus(paymentStatus);

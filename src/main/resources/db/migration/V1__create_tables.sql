@@ -92,7 +92,7 @@
         id bigint not null,
         order_id bigint not null unique,
         payment_status varchar(255) not null check ((payment_status in ('PENDING','APPROVED','REFUSED'))),
-        payment_type varchar(255) not null check ((payment_type in ('MOCK'))),
+        payment_type varchar(255) not null check ((payment_type in ('MOCK_APPROVED', 'MOCK_REFUSED'))),
         primary key (id)
     );
 
