@@ -72,7 +72,7 @@ public class LoyaltyService {
         return customerRepository.findByUser(currentUser)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
     }
-
+    
     private LoyaltyResponseDTO mapToResponseDTO(LoyaltyProgram loyaltyProgram) {
         return new LoyaltyResponseDTO(
                 loyaltyProgram.getId(),

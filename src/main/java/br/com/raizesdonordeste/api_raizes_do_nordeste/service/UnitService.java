@@ -34,7 +34,7 @@ public class UnitService {
         savedUnit.setStock(savedStock);
 
         //log para auditoria
-        log.info("Unidade e estoque criados | id={}, nome={}, cidade={}, estado={}, id_estoque={}",
+        log.info("Unidade e estoque criados | id={} | nome={} | cidade={} | estado={} | id_estoque={}",
                 savedUnit.getId(), savedUnit.getName(), savedUnit.getCity(), savedUnit.getState(), stock.getId());
 
         return mapToResponseDTO(savedUnit);
@@ -58,7 +58,7 @@ public class UnitService {
         unitRepository.save(unit);
 
         //log para auditoria
-        log.info("Unidade desativada | id={}, nome={}, cidade={}, estado={}",
+        log.info("Unidade desativada | id={} | nome={} | cidade={} | estado={}",
                 unit.getId(), unit.getName(), unit.getCity(), unit.getState());
     }
 

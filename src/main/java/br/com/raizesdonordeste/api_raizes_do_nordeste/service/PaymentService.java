@@ -42,10 +42,9 @@ public class PaymentService {
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new AccessDeniedException("Não autenticado");
         }
-        String currentUserEmail = authentication.getName();
 
         if (order.getCustomer() != null &&
-                !order.getCustomer().getUser().getEmail().equals(currentUserEmail)) {
+                !order.getCustomer().getUser().getEmail().equals(getCurrentUserEmail())) {
             throw new AccessDeniedException("Acesso negado");
         }
 
@@ -67,8 +66,8 @@ public class PaymentService {
             orderRepository.save(order);
 
             //log para auditoria
-            log.info("Pagamento processado | orderId={} | status={} | tipo={}",
-                    orderId, paymentStatus, dto.paymentType());
+            log.info("Pagamento processado | orderId={} | status={} | tipo={} | cliente={}",
+                    orderId, paymentStatus, dto.paymentType(), getCurrentUserEmail());
         }
 
         if (paymentStatus == PaymentStatus.REFUSED) {
@@ -87,6 +86,10 @@ public class PaymentService {
         return mapToResponseDTO(payment);
     }
 
+    private String getCurrentUserEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null ? authentication.getName() : "desconhecido";
+    }
 
     private PaymentResponseDTO mapToResponseDTO(Payment payment) {
         return new PaymentResponseDTO(
