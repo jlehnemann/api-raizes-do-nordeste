@@ -42,6 +42,7 @@
         valid_until timestamp(6) not null,
         name varchar(255) not null,
         product_id bigint unique not null,
+        active boolean not null,
         primary key (id)
     );
 

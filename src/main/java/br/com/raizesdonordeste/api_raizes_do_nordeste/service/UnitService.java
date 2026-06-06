@@ -9,12 +9,16 @@ import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.StockRepository
 import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.UnitRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UnitService {
 
     private final UnitRepository unitRepository;
@@ -29,6 +33,10 @@ public class UnitService {
 
         savedUnit.setStock(savedStock);
 
+        //log para auditoria
+        log.info("Unidade e estoque criados | id={}, nome={}, cidade={}, estado={}, id_estoque={}",
+                savedUnit.getId(), savedUnit.getName(), savedUnit.getCity(), savedUnit.getState(), stock.getId());
+
         return mapToResponseDTO(savedUnit);
     }
 
@@ -38,8 +46,8 @@ public class UnitService {
         return mapToResponseDTO(unit);
     }
 
-    public PageResponseDTO<UnitResponseDTO> findAll(Pageable pageable) {
-        return PageResponseDTO.of(unitRepository.findAll(pageable)
+    public PageResponseDTO<UnitResponseDTO> findAllActiveUnits(Pageable pageable) {
+        return PageResponseDTO.of(unitRepository.findAllByActiveTrue(pageable)
                 .map(this::mapToResponseDTO));
     }
 
@@ -48,6 +56,10 @@ public class UnitService {
                 .orElseThrow(() -> new EntityNotFoundException("Unidade não encontrada"));
         unit.setActive(false);
         unitRepository.save(unit);
+
+        //log para auditoria
+        log.info("Unidade desativada | id={}, nome={}, cidade={}, estado={}",
+                unit.getId(), unit.getName(), unit.getCity(), unit.getState());
     }
 
     private UnitResponseDTO mapToResponseDTO(Unit unit) {

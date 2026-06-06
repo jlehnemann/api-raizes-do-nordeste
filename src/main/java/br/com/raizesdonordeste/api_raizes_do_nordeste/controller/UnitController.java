@@ -33,8 +33,8 @@ public class UnitController {
     }
 
     @GetMapping("/buscar-todas")
-    public PageResponseDTO<UnitResponseDTO> findAll(@PageableDefault(sort = "id") Pageable pageable) {
-        return unitService.findAll(pageable);
+    public PageResponseDTO<UnitResponseDTO> findAllActiveUnits(@PageableDefault(sort = "id") Pageable pageable) {
+        return unitService.findAllActiveUnits(pageable);
     }
 
     @PatchMapping("/desativar/{id}")

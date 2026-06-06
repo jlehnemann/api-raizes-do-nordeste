@@ -22,6 +22,7 @@ public class ProductController {
 
     @PostMapping("/criar")
     @PreAuthorize("hasAnyRole('ADMIN', 'UNIT_MANAGER')")
+    @ResponseStatus(HttpStatus.CREATED)
     public ProductResponseDTO createProductAndStockItem(@Valid @RequestBody ProductRequestDTO dto) {
         return productService.createProductAndStockItem(dto);
     }

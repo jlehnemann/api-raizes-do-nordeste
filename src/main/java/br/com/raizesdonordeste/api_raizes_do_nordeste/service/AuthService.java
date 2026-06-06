@@ -16,16 +16,17 @@ import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.UnitRepository;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.repository.UserRepository;
 import br.com.raizesdonordeste.api_raizes_do_nordeste.security.JwtService;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AuthService {
 
     private final UserRepository userRepository;

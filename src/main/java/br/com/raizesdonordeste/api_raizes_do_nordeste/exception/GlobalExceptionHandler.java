@@ -65,6 +65,8 @@ public class GlobalExceptionHandler {
     public ErrorResponseDTO handleGenericError(
             Exception exception,
             HttpServletRequest request) {
+        log.error("Erro interno | path={} | erro={}", request.getRequestURI(), exception.getMessage(), exception);
+
         return new ErrorResponseDTO(
                 "INTERNAL_ERROR",
                 "Erro interno do servidor",

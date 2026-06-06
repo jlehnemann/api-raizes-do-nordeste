@@ -1,6 +1,7 @@
 package br.com.raizesdonordeste.api_raizes_do_nordeste.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "discount_tb")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public class Discount {
@@ -32,5 +33,20 @@ public class Discount {
     @OneToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @Column(nullable = false)
+    private boolean active;
+
+    public Discount(String name, LocalDateTime validUntil, BigDecimal discountPercentage, Product product) {
+        this.name = name;
+        this.validUntil = validUntil;
+        this.discountPercentage = discountPercentage;
+        this.product = product;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.active = true;
+    }
 
 }
