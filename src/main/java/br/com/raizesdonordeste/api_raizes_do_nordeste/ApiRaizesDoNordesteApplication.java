@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ApiRaizesDoNordesteApplication {
 
 	public static void main(String[] args) {
+		System.out.println("Projeto do aluno: José Antônio Garcia Lehnemann Filho - RU 4695081");
 		SpringApplication.run(ApiRaizesDoNordesteApplication.class, args);
 	}
 

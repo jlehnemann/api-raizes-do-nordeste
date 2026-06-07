@@ -22,6 +22,7 @@ import java.util.List;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    //Erro 400
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponseDTO handleValidationErrors(
@@ -46,6 +47,7 @@ public class GlobalExceptionHandler {
         );
     }
 
+    //Erro 404
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponseDTO handleEntityNotFound(
@@ -60,6 +62,7 @@ public class GlobalExceptionHandler {
         );
     }
 
+    //Erro 500
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponseDTO handleGenericError(
@@ -76,6 +79,7 @@ public class GlobalExceptionHandler {
         );
     }
 
+    //Erro 409
     @ExceptionHandler(IllegalStateException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponseDTO handleIllegalStateException(
@@ -89,6 +93,7 @@ public class GlobalExceptionHandler {
         );
     }
 
+    //Erro 402
     @ExceptionHandler(PaymentRefusedException.class)
     @ResponseStatus(HttpStatus.PAYMENT_REQUIRED)
     public ErrorResponseDTO handlePaymentRefusedException(
@@ -102,6 +107,7 @@ public class GlobalExceptionHandler {
         );
     }
 
+    //Erro 403
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorResponseDTO handleAccessDeniedException(
@@ -118,6 +124,7 @@ public class GlobalExceptionHandler {
         );
     }
 
+    //Erro 409
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponseDTO handleDataIntegrityViolationException(
