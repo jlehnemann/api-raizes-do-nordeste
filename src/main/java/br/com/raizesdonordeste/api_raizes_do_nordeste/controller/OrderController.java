@@ -56,8 +56,14 @@ public class OrderController {
         return orderService.findAllOrders(orderOrigin, pageable);
     }
 
-    @PatchMapping("/entregar/{id}")
+    @PatchMapping("/pronto/{id}")
     @PreAuthorize("hasAnyRole('UNIT_MANAGER', 'KITCHEN_ATTENDANT')")
+    public OrderResponseDTO readyOrder(@PathVariable Long id) {
+        return orderService.readyOrder(id);
+    }
+
+    @PatchMapping("/entregar/{id}")
+    @PreAuthorize("hasAnyRole('UNIT_MANAGER', 'COUNTER_ATTENDANT')")
     public OrderResponseDTO deliverOrder(@PathVariable Long id) {
         return orderService.deliverOrder(id);
     }

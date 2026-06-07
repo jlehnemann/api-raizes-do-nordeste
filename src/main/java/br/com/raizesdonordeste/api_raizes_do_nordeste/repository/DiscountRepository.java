@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface DiscountRepository extends JpaRepository<Discount, Long> {
     Optional<Discount> findByProduct(Product product);
     Page<Discount> findAllByActiveTrueAndValidUntilAfter(LocalDateTime now, Pageable pageable);
+    Optional<Discount> findByProductAndActiveTrue(Product product);
+
 
 
 }

@@ -36,12 +36,13 @@ public class OrderService {
     private final CustomerRepository customerRepository;
     private final ProductRepository productRepository;
     private final DiscountRepository discountRepository;
+    private final StockItemRepository stockItemRepository;
 
 
     public OrderResponseDTO create(OrderRequestDTO dto) {
 
-        Unit unit = unitRepository.findById(dto.unitId()).
-                orElseThrow(() -> new EntityNotFoundException("Unidade não encontrada"));
+        Unit unit = unitRepository.findById(dto.unitId())
+                .orElseThrow(() -> new EntityNotFoundException("Unidade não encontrada"));
         Customer customer = dto.customerId() != null ? customerRepository.findById(dto.customerId())
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado")) : null;
 
@@ -51,9 +52,30 @@ public class OrderService {
             Product product = productRepository.findById(itemDTO.productId())
                     .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado"));
 
+            if (!product.isActive()) {
+                throw new IllegalStateException("Produto indisponível: " + product.getName());
+            }
+
+            //desconta do estoque para reservar o produto
+            StockItem stockItem = stockItemRepository
+                    .findByProductAndStock_Unit(product, unit)
+                    .orElseThrow(() -> new EntityNotFoundException(
+                            "Item não encontrado no estoque desta unidade: " + product.getName()));
+
+            if (stockItem.getQuantity() < itemDTO.quantity()) {
+                throw new IllegalStateException("Estoque insuficiente: " + product.getName());
+            }
+
+            stockItem.setQuantity(stockItem.getQuantity() - itemDTO.quantity());
+
+            if (stockItem.getQuantity() == 0) {
+                product.setActive(false);
+            }
+
             OrderItem orderItem = new OrderItem(product, itemDTO.quantity(), product.getUnitPrice());
 
-            Discount discount = discountRepository.findByProduct(product).orElse(null);
+            //verifica e aplica promoção
+            Discount discount = discountRepository.findByProductAndActiveTrue(product).orElse(null);
             if (discount != null && discount.getValidUntil().isAfter(LocalDateTime.now())) {
                 orderItem.setDiscount(discount);
             }
@@ -86,7 +108,6 @@ public class OrderService {
                 savedOrder.getUnit().getName(),
                 savedOrder.getCustomer() != null ? savedOrder.getCustomer().getId() : "totem",
                 savedOrder.getOrderTotal());
-
 
         return mapToResponseDTO(savedOrder);
     }
@@ -125,12 +146,30 @@ public class OrderService {
         return PageResponseDTO.of(orders.map(this::mapToResponseDTO));
     }
 
-    public OrderResponseDTO deliverOrder(Long id) {
+    public OrderResponseDTO readyOrder(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Pedido não encontrado"));
 
         if (order.getOrderStatus() != OrderStatus.PREPARING) {
-            throw new IllegalStateException("Pedido não pode ser entregue");
+            throw new IllegalStateException("Pedido não pode ser cancelado");
+        }
+
+        order.setOrderStatus(OrderStatus.READY);
+
+        Order savedOrder = orderRepository.save(order);
+
+        //log para auditoria
+        log.info("Pedido pronto | id={} | funcionário={}", id, getCurrentUserEmail());
+
+        return mapToResponseDTO(savedOrder);
+    }
+
+    public OrderResponseDTO deliverOrder(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Pedido não encontrado"));
+
+        if (order.getOrderStatus() != OrderStatus.READY) {
+            throw new IllegalStateException("Pedido não pode ser cancelado");
         }
 
         order.setOrderStatus(OrderStatus.DELIVERED);
@@ -148,11 +187,10 @@ public class OrderService {
                     customer.getId(), earnedPoints, currentPoints + earnedPoints);
         }
 
-        //log para auditoria
-        log.info("Pedido entregue | id={} | funcionário={}", id, getCurrentUserEmail());
-
         Order savedOrder = orderRepository.save(order);
 
+        //log para auditoria
+        log.info("Pedido entregue | id={} | funcionário={}", id, getCurrentUserEmail());
         return mapToResponseDTO(savedOrder);
     }
 
@@ -160,11 +198,26 @@ public class OrderService {
         Order order = orderRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Pedido não encontrado"));
 
-        if (order.getOrderStatus() != OrderStatus.PREPARING && order.getOrderStatus()!= OrderStatus.PAYMENT_PENDING) {
+        if (order.getOrderStatus() != OrderStatus.PREPARING && order.getOrderStatus() != OrderStatus.PAYMENT_PENDING
+                && order.getOrderStatus() != OrderStatus.READY) {
             throw new IllegalStateException("Pedido não pode ser cancelado");
         }
 
         order.setOrderStatus(OrderStatus.CANCELLED);
+
+        // devolve o estoque de cada item cancelado
+        for (OrderItem item : order.getOrderItemList()) {
+            StockItem stockItem = stockItemRepository
+                    .findByProductAndStock_Unit(item.getProduct(), order.getUnit())
+                    .orElseThrow(() -> new EntityNotFoundException("Item não encontrado no estoque"));
+
+            stockItem.setQuantity(stockItem.getQuantity() + item.getQuantity());
+
+            //caso item tivesse esgotado, ativa novamente
+            if (stockItem.getQuantity() > 0) {
+                item.getProduct().setActive(true);
+            }
+        }
 
         //log para auditoria
         log.info("Pedido cancelado | id={} | funcionário={}", id, getCurrentUserEmail());

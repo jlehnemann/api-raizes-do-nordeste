@@ -84,7 +84,7 @@
         unit_id bigint not null,
         idempotency_key uuid not null unique,
         order_origin varchar(255) not null check ((order_origin in ('APP','COUNTER','PICKUP','TOTEM','WEBSITE'))),
-        order_status varchar(255) not null check ((order_status in ('PAYMENT_PENDING','PREPARING','DELIVERED','CANCELLED'))),
+        order_status varchar(255) not null check ((order_status in ('PAYMENT_PENDING','PREPARING','READY','DELIVERED','CANCELLED'))),
         primary key (id)
     );
 
