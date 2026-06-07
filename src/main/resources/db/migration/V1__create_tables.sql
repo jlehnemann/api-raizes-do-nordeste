@@ -69,7 +69,7 @@
         item_subtotal numeric(38,2) not null,
         quantity integer not null,
         unit_price numeric(38,2) not null,
-        discount_id bigint unique,
+        discount_id bigint,
         id bigint not null,
         order_id bigint not null,
         product_id bigint not null,
@@ -107,7 +107,7 @@
 
     create table stock_item_tb (
         id bigint not null,
-        product_id bigint not null unique,
+        product_id bigint not null,
         quantity bigint not null,
         stock_id bigint not null,
         name varchar(255) not null,

@@ -37,7 +37,7 @@ public class OrderItem {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "discount_id")
     private Discount discount;
 

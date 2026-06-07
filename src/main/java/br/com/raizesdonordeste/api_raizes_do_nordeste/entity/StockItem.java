@@ -1,7 +1,6 @@
 package br.com.raizesdonordeste.api_raizes_do_nordeste.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,7 +23,7 @@ public class StockItem {
     @Column(nullable = false) //sem NotNull, pois pode vir nulo do DTO
     private Long quantity = 0L; //salvaguarda caso venha nulo do DTO
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 

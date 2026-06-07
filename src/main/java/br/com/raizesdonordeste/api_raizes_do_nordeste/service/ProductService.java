@@ -40,7 +40,7 @@ public class ProductService {
             stockItemRepository.save(stockItem);
         }
 
-        log.info("Produto cadastrado | id= {} | nome = {} | preço = {}, ativo = {}",
+        log.info("Produto cadastrado | id={} | nome={} | preço={}, ativo={}",
                 savedProduct.getId(),
                 savedProduct.getName(),
                 savedProduct.getUnitPrice(),
