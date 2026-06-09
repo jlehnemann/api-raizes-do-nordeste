@@ -95,7 +95,7 @@ O banco de dados já vem populado com o seguinte usuário administrador:
 
 | Perfil | Email | Senha |
 |--------|-------|-------|
-| Administrador | joaoadmin@raizesnordeste.com.br | Admin@123 |
+| Administrador | joaoadmin@raizesdonordeste.com.br | Admin@123 |
 
 > **Nota:** Os demais usuários de teste (gerente, atendentes e cliente) 
 > estão disponíveis na coleção Postman, na pasta **Auth**, 
