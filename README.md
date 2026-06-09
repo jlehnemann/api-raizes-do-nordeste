@@ -33,13 +33,26 @@ As dependências do projeto são gerenciadas automaticamente pelo Maven
 através do arquivo `pom.xml` presente na raiz do repositório. 
 Não é necessária nenhuma configuração adicional.
 ## Configuração do banco de dados PostgreSQL e o seed
-Basta instalar o banco de dados! Como se trata de um projeto acadêmico, este foi pensado para trabalhar com o banco de dados 'postgres' criado automaticamente pelo próprio PostgreSQL para facilitar o processo de avaliação do projeto. Assim, também foram mantidos o usuário e senha originais (usuario: postgres ; senha: 12345). Não é necessário o application.properties do projeto, pois já vem configurado para uso com esse banco de dados.
+Criar o banco de dados antes de rodar a aplicação. 
+No terminal, conectar ao PostgreSQL e executar:
+
+```sql
+psql -U postgres
+CREATE DATABASE raizes_nordeste;
+\q
+```
+
+Ou pelo DBeaver:
+* Clicar com o botão direito em "Databases"
+* Selecionar "Create Database"
+* Nomear como `raizes_nordeste` e confirmar
+
+O restante é automático — o Flyway cria todas as tabelas e insere 
+os dados iniciais na primeira execução da aplicação seeds (localizados na pasta `/src/main/resources/db/migration`)
 
 > **Nota:** As credenciais do banco estão expostas no `application.properties` 
-> intencionalmente para facilitar a avaliação acadêmica. Em produção, 
-> estas seriam configuradas via variáveis de ambiente.
-
-A migração dos seeds (localizados na pasta `/src/main/resources/db/migration`) do banco com dados pré-inseridos estão configurados pelo Flyway, este já incluído no arquivo pom.xml referindo as dependências do Maven para o Spring Boot.
+> intencionalmente para facilitar a avaliação acadêmica (usuário: postgres, senha: 12345). 
+> Em produção, estas seriam configuradas via variáveis de ambiente.
 ## Como instalar e rodar a aplicação
 
 Clonar o repositorio:
@@ -90,10 +103,10 @@ variáveis de ambiente:
 coleção de testes:
 `API_Raízes.postman_collection.json`
 
-* No Postman, acessar File -> Import, e importar os dois arquivos acima.
+* No Postman, acessar File → Import, e importar os dois arquivos acima.
 * Antes de rodar os testes, verificar e confirmar que as variáveis de ambiente estão ativas, através da aba lateral Environments.
 > **Nota:** As variávies de ambiente do Postman armazenam, no momento do login de cada 
-> um dos usuários, seus respectivos tokens de acesso, através de um pequeno script em JavaScript.
+> um dos usuários, seus respectivos tokens de acesso, por meio de um pequeno script em JavaScript.
 * Os testes estão numerados e organizados em pastas, e já vêm salvos na ordem sugerida para serem testados.
 * Para rodar todos os testes em sequência e facilitar a avaliação, sugere-se clicar com o botão direito em cima da pasta do projeto no Postman, então em "Run". Na tela do Runner, desmarcar a opção "Stop run if an error occurs" e clicar em "Start Run".
 ## Logs para auditoria

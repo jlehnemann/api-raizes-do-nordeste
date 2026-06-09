@@ -759,7 +759,7 @@
       "name": "Pedidos",
       "item": [
         {
-          "name": "T20 - Pedidos - Cliente Cria Pedido 1",
+          "name": "T20 - Pedidos - Cliente Cria Pedido 1 - APP",
           "request": {
             "auth": {
               "type": "bearer",
@@ -798,7 +798,7 @@
           "response": []
         },
         {
-          "name": "T21 - Pedidos - Cliente Cria Pedido 2",
+          "name": "T21 - Pedidos - Cliente Cria Pedido 2 - WEBSITE",
           "request": {
             "auth": {
               "type": "bearer",
@@ -814,7 +814,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"orderOrigin\": \"APP\",\n  \"unitId\": 1,\n  \"customerId\": 1,\n  \"orderItemList\": [\n    {\n      \"productId\": 1,\n      \"quantity\": 2\n    }\n  ]\n}",
+              "raw": "{\n  \"orderOrigin\": \"WEBSITE\",\n  \"unitId\": 1,\n  \"customerId\": 1,\n  \"orderItemList\": [\n    {\n      \"productId\": 1,\n      \"quantity\": 2\n    },\n    {\n        \"productId\": 3,\n        \"quantity\": 3\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -837,7 +837,7 @@
           "response": []
         },
         {
-          "name": "T22 - Pedidos - Cliente Cria Pedido 3",
+          "name": "T22 - Pedidos - Cliente Cria Pedido 3 - APP",
           "request": {
             "auth": {
               "type": "bearer",
@@ -853,7 +853,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"orderOrigin\": \"APP\",\n  \"unitId\": 1,\n  \"customerId\": 1,\n  \"orderItemList\": [\n    {\n      \"productId\": 1,\n      \"quantity\": 2\n    }\n  ]\n}",
+              "raw": "{\n  \"orderOrigin\": \"APP\",\n  \"unitId\": 1,\n  \"customerId\": 1,\n  \"orderItemList\": [\n    {\n      \"productId\": 4,\n      \"quantity\": 2\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
