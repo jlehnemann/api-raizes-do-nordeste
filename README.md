@@ -83,7 +83,13 @@ mvnw.cmd spring-boot:run
 Após a aplicação estar rodando, acessar: 
 http://localhost:8080/swagger-ui.html
 
-
+Para testar endpoints autenticados diretamente pelo Swagger:
+1. Fazer login pelo endpoint `POST /auth/login` no Postman ou no próprio Swagger
+2. Copiar o `accessToken` retornado no response
+3. Clicar no botão **Authorize** 🔒 no topo da página do Swagger
+4. No campo **Value**, digitar: `Bearer {seu_token_aqui}`
+5. Clicar em **Authorize** e depois **Close**
+6. Todos os endpoints autenticados já estarão liberados para teste
 ## Credenciais de acesso
 O banco de dados já vem populado com o seguinte usuário administrador:
 
