@@ -7,11 +7,10 @@ Link do repositório no GitHub: https://github.com/jlehnemann/api-raizes-do-nord
 
 ## Tecnologias utilizadas
 * Java 21
-* Maven
-* Spring Boot
-* Spring Security
+* Apache Maven
+* Spring Boot / Spring Web / Spring Security
 * JJWT
-* Hibernate JPA
+* Hibernate / JPA
 * PostgreSQL
 * DBeaver
 * Flyway
@@ -20,6 +19,7 @@ Link do repositório no GitHub: https://github.com/jlehnemann/api-raizes-do-nord
 * Postman
 * OpenAPI/Swagger
 * IntelliJ IDEA
+* Draw.io (diagrams.net)
 * Git/GitHub
 ## Pré-requisitos de instalação
 * Instalar o Java 21 (recomendado Temurin)

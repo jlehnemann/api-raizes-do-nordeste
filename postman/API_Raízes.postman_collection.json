@@ -2,6 +2,7 @@
   "info": {
     "_postman_id": "e00212ce-461c-41be-aa6e-b8b4607c6bd0",
     "name": "API_Raízes",
+    "description": "Olá! Tudo bem? Por gentileza, não esquecer de importar e ativar as variáveis de ambiente para salvamento e pré-carregamento automático dos tokens. Obrigado por conferir minha API! Bons testes e um excelente dia!",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "49032404",
     "_collection_link": "https://go.postman.co/collection/49032404-e00212ce-461c-41be-aa6e-b8b4607c6bd0?source=collection_link"
@@ -581,10 +582,186 @@
       ]
     },
     {
+      "name": "Produtos",
+      "item": [
+        {
+          "name": "T15 - Produtos - Gerente Unidade cria produto \"Castanha de Caju\" - Código 6 (produto começa como inativo pois ainda não tem estoque)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_unit_manager}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Castanha de Caju\",\n    \"unitPrice\": 20.90\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/produtos/criar",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "produtos",
+                "criar"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "T16 - Produtos - Cliente busca todos os produtos ativos da rede",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_customer}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/produtos/buscar-todos-ativos",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "produtos",
+                "buscar-todos-ativos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "T17 - Produtos - Cliente busca produto código 1",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_customer}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/produtos/buscar/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "produtos",
+                "buscar",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "T18 - Produtos - Gerente Unidade atualiza preço do produto 2",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_unit_manager}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"unitPrice\": 17.95\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/produtos/atualizar-preco/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "produtos",
+                "atualizar-preco",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "T19 - Produtos  - Administrador desativa produto código 4",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/produtos/desativar/4",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "produtos",
+                "desativar",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Promoções",
       "item": [
         {
-          "name": "T15 - Administrador cria desconto 30% para produto 1",
+          "name": "T20 - Administrador cria desconto 30% para produto 1",
           "request": {
             "auth": {
               "type": "bearer",
@@ -623,7 +800,7 @@
           "response": []
         },
         {
-          "name": "T16 - Administrador cria desconto 10% para produto 2",
+          "name": "T21 - Administrador cria desconto 10% para produto 2",
           "request": {
             "auth": {
               "type": "bearer",
@@ -662,7 +839,7 @@
           "response": []
         },
         {
-          "name": "T17 - Administrador busca todas as promoções ativas",
+          "name": "T22 - Administrador busca todas as promoções ativas",
           "request": {
             "auth": {
               "type": "bearer",
@@ -692,7 +869,7 @@
           "response": []
         },
         {
-          "name": "T18 - Administrador busca promoção código 1",
+          "name": "T23 - Administrador busca promoção código 1",
           "request": {
             "auth": {
               "type": "bearer",
@@ -723,7 +900,7 @@
           "response": []
         },
         {
-          "name": "T19 - Administrador desativa desconto códido 2",
+          "name": "T24 - Administrador desativa desconto códido 2",
           "request": {
             "auth": {
               "type": "bearer",
@@ -759,7 +936,7 @@
       "name": "Pedidos",
       "item": [
         {
-          "name": "T20 - Pedidos - Cliente Cria Pedido 1 - APP",
+          "name": "T25 - Pedidos - Cliente Cria Pedido 1 - APP",
           "request": {
             "auth": {
               "type": "bearer",
@@ -798,7 +975,7 @@
           "response": []
         },
         {
-          "name": "T21 - Pedidos - Cliente Cria Pedido 2 - WEBSITE",
+          "name": "T26 - Pedidos - Cliente Cria Pedido 2 - WEBSITE",
           "request": {
             "auth": {
               "type": "bearer",
@@ -837,7 +1014,7 @@
           "response": []
         },
         {
-          "name": "T22 - Pedidos - Cliente Cria Pedido 3 - APP",
+          "name": "T27 - Pedidos - Cliente Cria Pedido 3 - APP",
           "request": {
             "auth": {
               "type": "bearer",
@@ -853,7 +1030,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"orderOrigin\": \"APP\",\n  \"unitId\": 1,\n  \"customerId\": 1,\n  \"orderItemList\": [\n    {\n      \"productId\": 4,\n      \"quantity\": 2\n    }\n  ]\n}",
+              "raw": "{\n  \"orderOrigin\": \"APP\",\n  \"unitId\": 1,\n  \"customerId\": 1,\n  \"orderItemList\": [\n    {\n      \"productId\": 3,\n      \"quantity\": 2\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -876,7 +1053,7 @@
           "response": []
         },
         {
-          "name": "T23 - Pedidos - Admin Buscar Pedido",
+          "name": "T28 - Pedidos - Admin Buscar Pedido",
           "request": {
             "auth": {
               "type": "bearer",
@@ -907,7 +1084,7 @@
           "response": []
         },
         {
-          "name": "T24 - Pedidos - Cliente Buscar Pedido (Buscar Meu Pedido)",
+          "name": "T29 - Pedidos - Cliente Buscar Pedido (Buscar Meu Pedido)",
           "request": {
             "auth": {
               "type": "bearer",
@@ -939,7 +1116,7 @@
           "response": []
         },
         {
-          "name": "T25 - Pedidos - Gerente Busca Todos os Pedidos da Unidade 1 com Status Preparando",
+          "name": "T30 - Pedidos - Gerente Busca Todos os Pedidos da Unidade 1 com Status Preparando",
           "request": {
             "auth": {
               "type": "bearer",
@@ -980,7 +1157,7 @@
           "response": []
         },
         {
-          "name": "T26 - Pedidos - Gerente Busca Todos os Pedidos da Unidade 1",
+          "name": "T31 - Pedidos - Gerente Busca Todos os Pedidos da Unidade 1",
           "request": {
             "auth": {
               "type": "bearer",
@@ -1017,7 +1194,7 @@
           "response": []
         },
         {
-          "name": "T27 - Pedidos - Admin Busca Todos os Pedidos com OrderOrigin = APP",
+          "name": "T32 - Pedidos - Admin Busca Todos os Pedidos com OrderOrigin = APP",
           "request": {
             "auth": {
               "type": "bearer",
@@ -1054,7 +1231,7 @@
           "response": []
         },
         {
-          "name": "T28 - Pedidos - Admin Busca Todos os Pedidos Realizados",
+          "name": "T33 - Pedidos - Admin Busca Todos os Pedidos Realizados",
           "request": {
             "auth": {
               "type": "bearer",
@@ -1091,7 +1268,7 @@
           "response": []
         },
         {
-          "name": "T29 - Pedidos - Atendente Cozinha Cancela Pedido 2",
+          "name": "T34 - Pedidos - Atendente Cozinha Cancela Pedido 2",
           "request": {
             "auth": {
               "type": "bearer",
@@ -1127,7 +1304,7 @@
       "name": "Pagamentos",
       "item": [
         {
-          "name": "T30 - Pagamentos - Cliente Solicita Processar Pagamento Pedido 1 - Resposta Aprovado",
+          "name": "T35 - Pagamentos - Cliente Solicita Processar Pagamento Pedido 1 - Resposta Aprovado",
           "request": {
             "auth": {
               "type": "bearer",
@@ -1167,7 +1344,7 @@
           "response": []
         },
         {
-          "name": "T31 - Pagamentos - Consultar Pagamento por Número de Pedido",
+          "name": "T36 - Pagamentos - Consultar Pagamento por Número de Pedido",
           "request": {
             "auth": {
               "type": "bearer",
@@ -1203,7 +1380,7 @@
       "name": "Pedidos (entrega após pagamento)",
       "item": [
         {
-          "name": "T32 - Pedidos - Atendente Cozinha Sinaliza Pronto Pedido 1",
+          "name": "T37 - Pedidos - Atendente Cozinha Sinaliza Pronto Pedido 1",
           "request": {
             "auth": {
               "type": "bearer",
@@ -1234,7 +1411,7 @@
           "response": []
         },
         {
-          "name": "T33 - Pedidos - Atendente Balcão Entrega Pedido 1",
+          "name": "T38 - Pedidos - Atendente Balcão Entrega Pedido 1",
           "request": {
             "auth": {
               "type": "bearer",
@@ -1270,7 +1447,7 @@
       "name": "Fidelidade",
       "item": [
         {
-          "name": "T34 - Fidelidade - Atendente balcão busca pontos de cliente",
+          "name": "T39 - Fidelidade - Atendente balcão busca pontos de cliente",
           "request": {
             "auth": {
               "type": "bearer",
@@ -1301,7 +1478,7 @@
           "response": []
         },
         {
-          "name": "T35 - Fidelidade - Cliente busca seus pontos de fidelidade",
+          "name": "T40 - Fidelidade - Cliente busca seus pontos de fidelidade",
           "request": {
             "auth": {
               "type": "bearer",
@@ -1331,7 +1508,7 @@
           "response": []
         },
         {
-          "name": "T36 - Fidelidade - Cliente resgata 10 pontos de fidelidade",
+          "name": "T41 - Fidelidade - Cliente resgata 10 pontos de fidelidade",
           "request": {
             "auth": {
               "type": "bearer",
@@ -1365,182 +1542,6 @@
                 "fidelidade",
                 "meus-pontos",
                 "resgate"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Produtos",
-      "item": [
-        {
-          "name": "T37 - Produtos - Gerente Unidade cria produto \"Castanha de Caju\" - Código 6 (produto começa como inativo pois ainda não tem estoque)",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token_unit_manager}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Castanha de Caju\",\n    \"unitPrice\": 20.90\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:8080/produtos/criar",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "produtos",
-                "criar"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "T38 - Produtos - Cliente busca todos os produtos ativos da rede",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token_customer}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8080/produtos/buscar-todos-ativos",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "produtos",
-                "buscar-todos-ativos"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "T39 - Produtos - Cliente busca produto código 1",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token_customer}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8080/produtos/buscar/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "produtos",
-                "buscar",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "T40 - Produtos - Gerente Unidade atualiza preço do produto 2",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token_unit_manager}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "PATCH",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"unitPrice\": 17.95\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:8080/produtos/atualizar-preco/2",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "produtos",
-                "atualizar-preco",
-                "2"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "T41 - Produtos  - Administrador desativa produto código 4",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token_admin}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "PATCH",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8080/produtos/desativar/4",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "produtos",
-                "desativar",
-                "4"
               ]
             }
           },
