@@ -21,7 +21,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"João Silva\",\n    \"email\": \"joao@email.com\",\n    \"password\": \"Senha@123\",\n    \"telephone\": \"(81) 99999-9999\",\n    \"address\": \"Rua das Flores, 123\",\n    \"lgpdConsent\": true\n}",
+              "raw": "{\n    \"name\": \"Carlos Silva\",\n    \"email\": \"carlos@email.com\",\n    \"password\": \"Cliente@123\",\n    \"telephone\": \"(81) 99999-9999\",\n    \"address\": \"Rua das Flores, 123\",\n    \"lgpdConsent\": true\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -68,7 +68,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"joao@email.com\",\n    \"password\": \"Senha@123\"\n}",
+              "raw": "{\n    \"email\": \"carlos@email.com\",\n    \"password\": \"Cliente@123\"\n}",
               "options": {
                 "raw": {
                   "language": "json"

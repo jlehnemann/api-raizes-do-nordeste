@@ -42,6 +42,8 @@ public class OrderController {
     @Operation(summary = "Buscar pedido por ID", description = "Acesso restrito a funcionários")
     @ApiResponse(responseCode = "200", description = "Pedido encontrado")
     @ApiResponse(responseCode = "404", description = "Pedido não encontrado")
+    @ApiResponse(responseCode = "403", description = "Sem permissão")
+
     public OrderResponseDTO findById(@PathVariable Long id) {
         return orderService.findById(id);
     }
@@ -60,6 +62,7 @@ public class OrderController {
     @PreAuthorize("hasAnyRole('ADMIN', 'UNIT_MANAGER', 'KITCHEN_ATTENDANT', 'COUNTER_ATTENDANT')")
     @Operation(summary = "Listar pedidos por unidade", description = "Filtra por status opcionalmente — ex: ?orderStatus=PREPARING")
     @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
+    @ApiResponse(responseCode = "403", description = "Sem permissão")
     public PageResponseDTO<OrderResponseDTO> findByUnitIdAndOrderStatus(
             @PathVariable Long unitId, @RequestParam(required = false) OrderStatus orderStatus,
             @PageableDefault(sort = "id") Pageable pageable) {
@@ -81,6 +84,8 @@ public class OrderController {
     @PreAuthorize("hasAnyRole('UNIT_MANAGER', 'KITCHEN_ATTENDANT')")
     @Operation(summary = "Marcar pedido como pronto", description = "Cozinha marca o pedido como pronto para entrega")
     @ApiResponse(responseCode = "200", description = "Status atualizado para READY")
+    @ApiResponse(responseCode = "404", description = "Pedido não encontrado")
+    @ApiResponse(responseCode = "403", description = "Sem permissão")
     @ApiResponse(responseCode = "409", description = "Pedido não está em PREPARING")
     public OrderResponseDTO readyOrder(@PathVariable Long id) {
         return orderService.readyOrder(id);
@@ -90,15 +95,19 @@ public class OrderController {
     @PreAuthorize("hasAnyRole('UNIT_MANAGER', 'COUNTER_ATTENDANT')")
     @Operation(summary = "Entregar pedido", description = "Marca o pedido como entregue e acumula pontos de fidelidade")
     @ApiResponse(responseCode = "200", description = "Status atualizado para DELIVERED")
+    @ApiResponse(responseCode = "404", description = "Pedido não encontrado")
+    @ApiResponse(responseCode = "403", description = "Sem permissão")
     @ApiResponse(responseCode = "409", description = "Pedido não está em READY")
     public OrderResponseDTO deliverOrder(@PathVariable Long id) {
         return orderService.deliverOrder(id);
     }
 
     @PatchMapping("/cancelar/{id}")
-    @PreAuthorize("hasAnyRole('UNIT_MANAGER', 'KITCHEN_ATTENDANT')")
+    @PreAuthorize("hasAnyRole('UNIT_MANAGER', 'KITCHEN_ATTENDANT', 'COUNTER_ATTENDANT')")
     @Operation(summary = "Cancelar pedido", description = "Cancela o pedido e devolve o estoque automaticamente")
     @ApiResponse(responseCode = "200", description = "Pedido cancelado com sucesso")
+    @ApiResponse(responseCode = "404", description = "Pedido não encontrado")
+    @ApiResponse(responseCode = "403", description = "Sem permissão")
     @ApiResponse(responseCode = "409", description = "Pedido não pode ser cancelado neste status")
     public OrderResponseDTO cancelOrder(@PathVariable Long id) {
         return orderService.cancelOrder(id);
