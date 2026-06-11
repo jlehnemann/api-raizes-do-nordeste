@@ -2,6 +2,7 @@ package br.com.raizesdonordeste.api_raizes_do_nordeste.exception;
 
 import br.com.raizesdonordeste.api_raizes_do_nordeste.dto.response.ErrorResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.security.auth.message.AuthException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -46,6 +47,7 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
     }
+
 
     //Erro 404
     @ExceptionHandler(EntityNotFoundException.class)

@@ -48,8 +48,14 @@ public class SecurityConfig {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             response.setContentType("application/json");
                             response.getWriter().write("""
-                                {"error": "UNAUTHORIZED", "message": "Autenticação necessária"}
-                                """);
+                                {
+                                "error": "UNAUTHORIZED",
+                                "message": "Autenticação necessária",
+                                "details": [],
+                                "timestamp": "%s",
+                                "path": "%s"
+                                }
+                                """.formatted(java.time.LocalDateTime.now(), request.getRequestURI()));
                         })
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
