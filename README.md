@@ -129,3 +129,6 @@ Os seguintes eventos são registrados:
 * Entrada e saída de estoque
 * Tentativas de acesso não autorizado
 * Erros internos do servidor
+
+## Autor
+Projeto desenvolvido por José Antônio Garcia Lehnemann Filho
