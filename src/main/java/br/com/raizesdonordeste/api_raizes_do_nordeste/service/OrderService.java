@@ -112,12 +112,14 @@ public class OrderService {
         return mapToResponseDTO(savedOrder);
     }
 
+    @Transactional(readOnly = true)
     public OrderResponseDTO findById(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Pedido não encontrado"));
         return mapToResponseDTO(order);
     }
 
+    @Transactional(readOnly = true)
     public OrderResponseDTO findMyOrderById(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Pedido não encontrado"));
@@ -128,6 +130,7 @@ public class OrderService {
         return mapToResponseDTO(order);
     }
 
+    @Transactional(readOnly = true)
     public PageResponseDTO<OrderResponseDTO> findByUnitIdAndOrderStatus(
             Long unitId, OrderStatus orderStatus, Pageable pageable) {
 
@@ -138,6 +141,7 @@ public class OrderService {
         return PageResponseDTO.of(orders.map(this::mapToResponseDTO));
     }
 
+    @Transactional(readOnly = true)
     public PageResponseDTO<OrderResponseDTO> findAllOrders(OrderOrigin orderOrigin, Pageable pageable) {
         Page<Order> orders = orderOrigin != null
                 ? orderRepository.findAllByOrderOrigin(orderOrigin, pageable)

@@ -44,6 +44,7 @@ public class DiscountService {
         return mapToResponseDTO(savedDiscount);
     }
 
+    @Transactional(readOnly = true)
     public PageResponseDTO<DiscountResponseDTO> findAllActiveDiscounts(Pageable pageable) {
         Page<Discount> discounts =
                 discountRepository.findAllByActiveTrueAndValidUntilAfter(LocalDateTime.now(), pageable);
@@ -51,6 +52,7 @@ public class DiscountService {
         return PageResponseDTO.of(discounts.map(this::mapToResponseDTO));
     }
 
+    @Transactional(readOnly = true)
     public DiscountResponseDTO findById(Long id) {
         Discount discount = discountRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Promoção não encontrada"));

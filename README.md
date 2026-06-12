@@ -55,7 +55,7 @@ os dados iniciais na primeira execução da aplicação seeds (localizados na pa
 > Em produção, estas seriam configuradas via variáveis de ambiente.
 ## Como instalar e rodar a aplicação
 
-Clonar o repositorio:
+Clonar o repositório:
 ``` bash
 git clone https://github.com/jlehnemann/api-raizes-do-nordeste.git
 ```
@@ -68,13 +68,13 @@ Opção 1 (com o IntelliJ IDEA):
 * o Flyway cria as tabelas e insere os dados automaticamente
 
 Opção 2 (no Linux, sem IntelliJ IDEA):
-* na pasta onde o repositorio foi clonado, rodar o comando:
+* na pasta onde o repositório foi clonado, rodar o comando:
 ``` bash
 ./mvnw spring-boot:run
 ```
 
 Opção 3 (no Windows, sem IntelliJ IDEA):
-* na pasta onde o repositorio foi clonado, rodar o comando:
+* na pasta onde o repositório foi clonado, rodar o comando:
 ``` bash
 mvnw.cmd spring-boot:run
 ```
@@ -111,7 +111,7 @@ coleção de testes:
 
 * No Postman, acessar File → Import, e importar os dois arquivos acima.
 * Antes de rodar os testes, verificar e confirmar que as variáveis de ambiente estão ativas, através da aba lateral Environments.
-> **Nota:** As variávies de ambiente do Postman armazenam, no momento do login de cada 
+> **Nota:** As variáveis de ambiente do Postman armazenam, no momento do login de cada 
 > um dos usuários, seus respectivos tokens de acesso, por meio de um pequeno script em JavaScript.
 * Os testes estão numerados e organizados em pastas, e já vêm salvos na ordem sugerida para serem testados.
 * Para rodar todos os testes em sequência e facilitar a avaliação, sugere-se clicar com o botão direito em cima da pasta do projeto no Postman, então em "Run". Na tela do Runner, desmarcar a opção "Stop run if an error occurs" e clicar em "Start Run".
@@ -125,7 +125,7 @@ Os seguintes eventos são registrados:
 * Acúmulo e resgate de pontos de fidelidade
 * Criação e desativação de unidades
 * Criação e desativação de promoções
-* Cadastro, atualizaação e desativação de produtos
+* Cadastro, atualização e desativação de produtos
 * Entrada e saída de estoque
 * Tentativas de acesso não autorizado
 * Erros internos do servidor

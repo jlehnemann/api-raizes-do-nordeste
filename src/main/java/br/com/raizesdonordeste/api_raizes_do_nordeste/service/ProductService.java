@@ -49,6 +49,7 @@ public class ProductService {
         return mapToResponseDTO(savedProduct);
     }
 
+    @Transactional(readOnly = true)
     public PageResponseDTO<ProductResponseDTO> findAllActiveProducts(Pageable pageable) {
         Page<Product> products = productRepository.findAllByActiveTrue(pageable);
 

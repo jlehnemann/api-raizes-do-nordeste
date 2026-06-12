@@ -25,6 +25,7 @@ public class StockService {
     private final StockItemRepository stockItemRepository;
     private final UnitRepository unitRepository;
 
+    @Transactional(readOnly = true)
     public StockResponseDTO findByUnitId(Long unitId) {
         Stock stock = stockRepository.findByUnitId(unitId)
                 .orElseThrow(() -> new EntityNotFoundException("Unidade não encontrada"));

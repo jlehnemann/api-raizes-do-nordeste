@@ -40,12 +40,14 @@ public class UnitService {
         return mapToResponseDTO(savedUnit);
     }
 
+    @Transactional(readOnly = true)
     public UnitResponseDTO findById (Long id) {
         Unit unit = unitRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Unidade não encontrada"));
         return mapToResponseDTO(unit);
     }
 
+    @Transactional(readOnly = true)
     public PageResponseDTO<UnitResponseDTO> findAllActiveUnits(Pageable pageable) {
         return PageResponseDTO.of(unitRepository.findAllByActiveTrue(pageable)
                 .map(this::mapToResponseDTO));

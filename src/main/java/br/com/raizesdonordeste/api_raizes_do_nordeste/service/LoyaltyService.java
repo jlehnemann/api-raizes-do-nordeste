@@ -24,6 +24,7 @@ public class LoyaltyService {
     private final CustomerRepository customerRepository;
 
 
+    @Transactional(readOnly = true)
     public LoyaltyResponseDTO findByCustomerId(Long customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(()-> new EntityNotFoundException("Cliente não encontrado"));
@@ -34,6 +35,7 @@ public class LoyaltyService {
     }
 
 
+    @Transactional(readOnly = true)
     public LoyaltyResponseDTO findMyLoyaltyPoints() {
          Customer customer = getAuthenticatedCustomer();
 
